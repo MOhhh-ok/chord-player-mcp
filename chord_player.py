@@ -91,7 +91,26 @@ INSTRUMENT_NAMES = {
     "synth_lead": 80,
 }
 
-SOUNDFONT_PATH = "/opt/homebrew/Cellar/fluid-synth/2.5.3/share/fluid-synth/sf2/VintageDreamsWaves-v2.sf2"
+def _find_soundfont() -> str:
+    """Auto-detect a SoundFont file for FluidSynth."""
+    import glob
+    if sf := os.environ.get("SOUNDFONT_PATH"):
+        return sf
+    for pattern in [
+        "/opt/homebrew/Cellar/fluid-synth/*/share/fluid-synth/sf2/*.sf2",
+        "/usr/local/Cellar/fluid-synth/*/share/fluid-synth/sf2/*.sf2",
+        "/usr/share/sounds/sf2/*.sf2",
+        "/usr/share/soundfonts/*.sf2",
+    ]:
+        found = sorted(glob.glob(pattern))
+        if found:
+            return found[-1]
+    raise FileNotFoundError(
+        "No SoundFont found. Set the SOUNDFONT_PATH environment variable."
+    )
+
+
+SOUNDFONT_PATH = _find_soundfont()
 
 
 def parse_chord(chord_str: str) -> tuple[int, list[int]]:
