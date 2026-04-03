@@ -21,7 +21,7 @@ Add the following to your MCP settings:
   "mcpServers": {
     "chord-player": {
       "command": "uvx",
-      "args": ["--from", "git+https://github.com/MOhhh-ok/chord-player-mcp@v0.1.0", "chord-player-mcp"]
+      "args": ["--from", "git+https://github.com/mohhh-ok/chord-player-mcp@v0.1.0", "chord-player-mcp"]
     }
   }
 }
